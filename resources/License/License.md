@@ -1,24 +1,45 @@
-MIT License
+# Licencia de Uso - InkSiege (V0.1.5)
+**BluePanda Studios** | Desarrollador: **Pato404**
+Fecha: 2026
+
+---
+
+## 1. Licencia de Software (MIT)
 
 Copyright (c) 2026 BluePanda Studios / Pato404
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Por la presente se concede permiso, de forma gratuita, a cualquier persona que obtenga una copia de este software y de los archivos de documentación asociados (el "Software"), para utilizar el Software sin restricción, incluyendo, sin limitación, los derechos a usar, copiar y modificar, siempre que se cumplan las siguientes condiciones:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+> **Condición:** El aviso de copyright anterior y este aviso de permiso se incluirán en todas las copias o partes sustanciales del Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+---
 
-*Nota adicional: La música incluida pertenece a sus respectivos autores en 
-Pixabay.com y se rige por sus propios términos de servicio.*
+## 2. Restricciones Específicas de BluePanda Studios
+
+Aunque el código base sigue la filosofía de código abierto, para proteger la identidad de **InkSiege**, se aplican las siguientes restricciones adicionales:
+
+* **Propiedad Intelectual:** El nombre "InkSiege", el logo de "BluePanda Studios" y el diseño artístico generado por código son propiedad exclusiva del autor.
+* **Redistribución Comercial:** No se permite la venta directa de este software o sus recursos (imágenes, sonidos) bajo un nombre distinto sin el consentimiento expreso de BluePanda Studios.
+* **Integridad:** No se permite la eliminación de las marcas de agua o logos de crédito (Logo BluePanda) integrados en la secuencia de inicio (`bluepanda.py`).
+
+---
+
+## 3. Créditos de Terceros y Recursos
+
+* **Motor de Juego:** Desarrollado sobre [Pygame](https://www.pygame.org/).
+* **Música y SFX:** Todo el audio utilizado en este proyecto proviene de [Pixabay](https://pixabay.com/) y se utiliza bajo su licencia de contenido gratuito. La autoría pertenece a sus respectivos creadores en dicha plataforma.
+* **Dependencias:** El uso de librerías como `imageio` se rige por sus propias licencias de código abierto.
+
+---
+
+## 4. Exclusión de Garantía (AS IS)
+
+EL SOFTWARE SE PROPORCIONA "TAL CUAL", SIN GARANTÍA DE NINGÚN TIPO, EXPRESA O IMPLÍCITA. Dado que el proyecto se encuentra en fase de desarrollo activo, el autor no se hace responsable de errores, bugs, o posibles pérdidas de datos derivadas de su uso.
+
+---
+
+## 5. Contacto
+
+Si deseas obtener permisos comerciales, reportar errores o colaborar en el proyecto, puedes contactar a través de los canales oficiales de BluePanda Studios.
+
+*Copyright (c) 2026 - Todos los derechos de marca reservados.*

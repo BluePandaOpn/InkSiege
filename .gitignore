@@ -1,25 +1,57 @@
-# Entorno virtual
+# --- Entorno Virtual ---
 .venv/
 venv/
+ENV/
+env/
+# Archivos de configuración de pip
+pip-log.txt
+pip-delete-this-directory.txt
 
-# Archivos de Python
+# --- Python y Cache ---
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
+.Python
+*.so
+.ipynb_checkpoints/
 
-# Archivos de logs
+# --- InkSiege: Archivos de Datos y Replays ---
+# Ignora archivos de guardado locales para que cada jugador tenga los suyos
+*.sav
+*.json
+!resources/lang/langs.json
+# Ignora las capturas de video/GIF generadas por imageio
+*.gif
+*.mp4
+screenshots/
+
+# --- Archivos de Logs ---
 *.log
+logs/
 
-# Configuración de IDEs
+# --- Configuración de IDEs ---
 .vscode/
 .idea/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
 
-# Archivos del sistema
+# --- Archivos del Sistema ---
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
 
-# Carpetas de build
+# --- Carpetas de Build y Distribución ---
+# (Por si usas PyInstaller para compilar tu main.py)
 build/
 dist/
+*.spec
 *.egg-info/
+.installed.cfg
+.eggs/
