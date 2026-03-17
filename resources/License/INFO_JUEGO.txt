@@ -1,0 +1,65 @@
+============================================================
+              INKSIEGE - DOCUMENTACIÓN TÉCNICA
+============================================================
+
+INFORMACIÓN GENERAL
+-------------------
+Título: InkSiege
+Versión Actual: V0.1.3
+Motor de Juego: PyGame
+Desarrollador: Pato404
+Estudio: BluePanda Studios
+Estilo Visual: Cartoon / Programático (Basado en rectángulos y formas con bordes)
+
+SISTEMA DE JUEGO (GAMEPLAY)
+---------------------------
+- Género: Bullet Hell / Survival con elementos de Roguelike.
+- Objetivo: Sobrevivir a oleadas de enemigos, recolectar maná para subir de nivel y desbloquear mejoras.
+- Resolución: 1200 x 780 píxeles.
+- Rendimiento: Objetivo de 60 FPS.
+
+MECÁNICAS DEL JUGADOR
+---------------------
+- Movimiento: Teclas W, A, S, D.
+- Salud Base: 100 HP.
+- Sistema de Energía:
+    * Capacidad Inicial: 10 de Energía.
+    * Escalado: Aumenta un 50% por cada nivel (10 -> 15 -> 22...).
+- Habilidades Especiales (Buffs):
+    * Escudo (Shield), Celeridad (Haste), Multidisparo, Orbitales, Rastro de Tinta, 
+      Forma Gigante, Invulnerabilidad por Dash, Adrenalina, entre otros.
+
+BESTIARIO (ENEMIGOS)
+--------------------
+1. Normales: Velocidad y daño estándar.
+2. Elites: Más grandes, con un multiplicador de HP (2.2x) y Daño (1.65x).
+3. Bosses (Jefes): HP Base de 420. Poseen patrones de movimiento lateral y carga hacia el jugador.
+4. Tanques: Muy lentos pero con 3.5x de vida adicional.
+5. Explosivos (Exploders): Muy rápidos, con poca vida; explotan en tinta al morir.
+
+SISTEMA DE MEJORAS Y RAREZAS
+----------------------------
+El juego cuenta con un sistema de pesos para la aparición de habilidades según su rareza:
+- Común (48%) | Poco Común (24%) | Raro (14%) | Épico (8%) | Legendario (4%) | Mítico (2%)
+
+Habilidades destacadas:
+- Imán de Maná (Mana Magnet), Rebote Mágico, Perforación (Piercing), Vampirismo, 
+  Cuerpo de Goma, Clon, Bumerán, Maestría Crítica, Segunda Oportunidad (Second Wind).
+
+DETALLES TÉCNICOS Y RENDIMIENTO
+-------------------------------
+- Límites de Entidades por Frame:
+    * Enemigos Activos: 180 (Máx. 300 normales / 100 elites).
+    * Proyectiles: 220.
+    * Partículas: 280.
+- Guardado de Datos: Los archivos se almacenan en la carpeta 'Documents/InkSiege'.
+- Grabación: El juego permite grabar repeticiones en formato MP4 (requiere imageio).
+
+CRÉDITOS DE TERCEROS
+--------------------
+- Música: Recursos obtenidos de Pixabay (https://pixabay.com).
+- Imágenes: El arte es generado principalmente por código, salvo logos y portadas específicos.
+
+============================================================
+© 2026 BluePanda Studios - Creado por Pato404
+============================================================
