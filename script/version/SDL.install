@@ -1,0 +1,28 @@
+
+# Url para drive para instalcino de las version sus ubiciaon para installar 
+[SDL.install.url.general] "https://drive.google.com/drive/folders/145nfrKQGKTEDAvtTKszDUC4nT0Pt-5nL?usp=drive_link"
+
+# SDL para installr url 
+[SDL.(0.1).install.url.general] "https://drive.google.com/drive/folders/17KKTMBjUH_BphV-bhmvbHU6YIKVoWGCr"
+[SDL.(0.1.1).install.url.general] "https://drive.google.com/drive/folders/1GNQ0vBP2DRTByGVoGiFsbDIxCahohE2w"
+[SDL.(0.1.3).install.url.general] "https://drive.google.com/drive/folders/1Tpfli_U5slm-D5KwLytTTa7DlGZhLLi-"
+[SDL.(0.1.3.1).install.url.general] "https://drive.google.com/drive/folders/1H1_1oNN8WE9T2ywtNwVAeMHY5U7jAfJv"
+[SDL.(0.1.3.2).install.url.general] ""
+[SDL.(0.1.3.3).install.url.general] "https://drive.google.com/drive/folders/1K2YdmkxCJW_Oys0FEKXCUbMTQql-YNcy"
+[SDL.(0.1.3.4).install.url.general] "https://drive.google.com/drive/folders/1vS1aId0fGek1YNRu_w4EuZTl9FucVDoK"
+[SDL.(0.1.3.5).install.url.general] "https://drive.google.com/drive/folders/1HnykDo6mHttiU8NBQ6cn-iAD7iRIiRvH"
+[SDL.(0.1.5).install.url.general] "https://drive.google.com/drive/folders/1MMNXFE-ShD2QFrjebirvNGB2X17yd5n5"
+
+# SDL para update url 
+[SDL.install.url.general] "https://drive.google.com/drive/folders/1RE_jFo2F6cWTVV6D1vaWXSH3AHNhLBd1"
+
+
+[SDL.(0.1).update.url.general] "https://drive.google.com/drive/folders/1K-8ecPNr_QP3uQUuGZeNgaSKTJ4ib7ne"
+[SDL.(0.1.1).update.url.general] "https://drive.google.com/drive/folders/1690ZDydZmimiafr038MikoHzGOavJz1q"
+[SDL.(0.1.3).update.url.general] "https://drive.google.com/drive/folders/1GfRyQJY2CbyCroxAcKvxV9GW4p-gykdp"
+[SDL.(0.1.3.1).update.url.general] ""
+[SDL.(0.1.3.2).update.url.general] ""
+[SDL.(0.1.3.3).update.url.general] "https://drive.google.com/drive/folders/1ZdnG2F5zJRzAM5B2IwiAV8ffwh8tukib"
+[SDL.(0.1.3.4).update.url.general] "https://drive.google.com/drive/folders/1O_0oho4vpgx9fnTr89cAPWeZP9aHZZGl"
+[SDL.(0.1.3.5).update.url.general] "https://drive.google.com/drive/folders/1LUg40w7tuHxYXsgaOXUmOpt-fbg-wNaX"   
+[SDL.(0.5).update.url.general] "https://drive.google.com/drive/folders/1EWvK_pEhTtNH1KYJgWib9W65DcEhJrPt"

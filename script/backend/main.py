@@ -1,43 +1,28 @@
 import requests
-import os
 from interpreter import SDKInterpreter
-from security import SecurityManager
 from updater import SDKUpdater
-from gui import SDKGui
+from gui import InkSiegeLauncher
 
-URL = "https://raw.githubusercontent.com/BluePandaOpn/InkSiege/refs/heads/main/script/version/SDK.version"
-
-def installation_worker(version_data, progress_fn):
-    # 1. Determinar si es instalación limpia (.exe) o parche (.zip)
-    # Por ahora simularemos que bajamos el update .zip
-    update_url = version_data['update_url']
-    
-    if not update_url:
-        # Si no hay URL, simulamos progreso para pruebas
-        for i in range(101):
-            import time
-            time.sleep(0.02)
-            progress_fn(i)
-    else:
-        # Descarga real y descompresión
-        SDKUpdater.download_and_extract(update_url, "./game_files", progress_fn)
-    
-    # Guardar versión local y Seguridad
-    with open("current_version.txt", "w") as f: f.write(version_data['v'])
-    # (Opcional) SecurityManager.save_hash(...)
+# URLs de tus archivos en GitHub
+URL_SDK = "https://raw.githubusercontent.com/BluePandaOpn/InkSiege/refs/heads/main/script/version/SDK.version"
+URL_SDL = "https://raw.githubusercontent.com/BluePandaOpn/InkSiege/refs/heads/main/script/version/SDL.install"
 
 def main():
     try:
-        r = requests.get(URL, timeout=10)
-        r.raise_for_status()
+        print("Obteniendo manifiestos...")
+        sdk_res = requests.get(URL_SDK).text
+        sdl_res = requests.get(URL_SDL).text
         
-        parser = SDKInterpreter(r.text)
-        versions = parser.get_versions()
+        # Procesar ambos archivos
+        interpreter = SDKInterpreter(sdk_res, sdl_res)
+        combined_data = interpreter.get_combined_data()
         
-        app = SDKGui(versions, installation_worker)
+        # Lanzar Launcher
+        app = InkSiegeLauncher(combined_data, SDKUpdater.process_update)
         app.mainloop()
+        
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Error crítico de conexión: {e}")
 
 if __name__ == "__main__":
     main()

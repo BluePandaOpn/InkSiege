@@ -1,29 +1,21 @@
-import zipfile
-import requests
+import webbrowser
 import os
-import io
+import time
 
 class SDKUpdater:
     @staticmethod
-    def download_and_extract(url, target_path, progress_callback):
-        if not url: return False
+    def process_update(data, progress_callback):
+        """Simula la preparación y abre el link de descarga."""
+        progress_callback(10)
+        time.sleep(0.5)
         
-        response = requests.get(url, stream=True)
-        total_size = int(response.headers.get('content-length', 0))
+        # Priorizar update_url si ya existe una versión local, si no install_url
+        url_to_open = data['update_url'] if data['update_url'] else data['install_url']
         
-        if response.status_code == 200:
-            bytes_downloaded = 0
-            zip_data = io.BytesIO()
-            
-            for chunk in response.iter_content(chunk_size=4096):
-                zip_data.write(chunk)
-                bytes_downloaded += len(chunk)
-                # Calcular progreso (0 a 100)
-                percent = (bytes_downloaded / total_size) * 100
-                progress_callback(percent)
-
-            # Descomprimir
-            with zipfile.ZipFile(zip_data) as zip_ref:
-                zip_ref.extractall(target_path)
+        if url_to_open:
+            progress_callback(50)
+            time.sleep(0.5)
+            webbrowser.open(url_to_open)
+            progress_callback(100)
             return True
         return False

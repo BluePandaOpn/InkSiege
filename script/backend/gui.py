@@ -1,73 +1,68 @@
 import tkinter as tk
-from tkinter import messagebox, ttk
-import threading
+from tkinter import ttk, messagebox
 
-class SDKGui(tk.Tk):
-    def __init__(self, version_list, on_install_callback):
+class InkSiegeLauncher(tk.Tk):
+    def __init__(self, data_list, install_fn):
         super().__init__()
-        self.title("InkSiege Launcher Pro")
+        self.title("InkSiege Launcher v2.0")
         self.geometry("500x450")
-        self.configure(bg="#0a0a0a")
-        self.version_list = version_list
-        self.on_install = on_install_callback
+        self.configure(bg="#0b0e14")
         
-        self._create_widgets()
+        self.data_list = data_list
+        self.install_fn = install_fn
+        self._init_ui()
 
-    def _create_widgets(self):
-        # Cabecera
-        header = tk.Frame(self, bg="#111", height=80)
+    def _init_ui(self):
+        # Header Neón
+        header = tk.Frame(self, bg="#161b22", height=70)
         header.pack(fill="x")
-        tk.Label(header, text="INKSIEGE SDK", bg="#111", fg="#00f2ff", 
-                 font=("Impact", 24)).pack(pady=10)
+        tk.Label(header, text="INKSIEGE SDK", fg="#58a6ff", bg="#161b22", 
+                 font=("Segoe UI", 18, "bold")).pack(pady=15)
 
-        # Contenedor
-        main = tk.Frame(self, bg="#0a0a0a", padx=30)
-        main.pack(fill="both", expand=True)
+        # Main Area
+        container = tk.Frame(self, bg="#0b0e14", padx=30)
+        container.pack(fill="both", expand=True)
 
-        tk.Label(main, text="SELECCIONAR VERSIÓN", bg="#0a0a0a", fg="#888", 
-                 font=("Arial", 9, "bold")).pack(pady=(20, 5), anchor="w")
+        tk.Label(container, text="VERSIÓN DEL PROYECTO", fg="#8b949e", bg="#0b0e14", 
+                 font=("Segoe UI", 9)).pack(pady=(20,5), anchor="w")
 
-        # Selector
-        self.selected_v = tk.StringVar(value=self.version_list[0]['v'])
-        self.menu = tk.OptionMenu(main, self.selected_v, *[v['v'] for v in self.version_list], command=self.update_info)
-        self.menu.config(bg="#1a1a1a", fg="white", highlightthickness=0, bd=0)
+        self.v_var = tk.StringVar(value=self.data_list[0]['v'])
+        self.menu = tk.OptionMenu(container, self.v_var, *[d['v'] for d in self.data_list], command=self._update_display)
+        self.menu.config(bg="#21262d", fg="white", bd=0, highlightthickness=0)
         self.menu.pack(fill="x")
 
-        # Info Card
-        self.info_card = tk.Label(main, text=self.version_list[0]['description'], bg="#1a1a1a", 
-                                  fg="#ccc", wraplength=400, pady=20, font=("Arial", 10))
-        self.info_card.pack(fill="x", pady=20)
+        # Info Box
+        self.info_box = tk.Label(container, text=self.data_list[0]['info'], bg="#161b22", 
+                                 fg="#c9d1d9", wraplength=400, pady=20, font=("Segoe UI", 10))
+        self.info_box.pack(fill="x", pady=20)
 
-        # Barra de Instalación
-        self.progress_var = tk.DoubleVar()
-        self.progress_bar = ttk.Progressbar(main, variable=self.progress_var, maximum=100)
-        self.progress_bar.pack(fill="x", pady=10)
+        # Progress
+        self.pb = ttk.Progressbar(container, mode='determinate', length=400)
+        self.pb.pack(fill="x", pady=10)
         
-        self.status_label = tk.Label(main, text="Listo para instalar", bg="#0a0a0a", fg="#00f2ff")
-        self.status_label.pack()
+        self.status = tk.Label(container, text="Esperando selección...", fg="#8b949e", bg="#0b0e14")
+        self.status.pack()
 
         # Botón
-        self.btn_action = tk.Button(main, text="INSTALAR / ACTUALIZAR", bg="#00f2ff", fg="black",
-                                    font=("Arial", 10, "bold"), bd=0, pady=10, command=self.start_process)
-        self.btn_action.pack(fill="x", side="bottom", pady=20)
+        self.btn = tk.Button(container, text="DESCARGAR E INSTALAR", bg="#238636", fg="white", 
+                             font=("Segoe UI", 10, "bold"), bd=0, cursor="hand2", 
+                             command=self._start_task)
+        self.btn.pack(fill="x", side="bottom", pady=20, ipady=10)
 
-    def update_info(self, val):
-        for v in self.version_list:
-            if v['v'] == val:
-                self.info_card.config(text=v['description'])
+    def _update_display(self, val):
+        item = next(i for i in self.data_list if i['v'] == val)
+        self.info_box.config(text=item['info'])
 
-    def start_process(self):
-        v_data = next(v for v in self.version_list if v['v'] == self.selected_v.get())
-        self.btn_action.config(state="disabled")
-        
-        # Ejecutar en hilo separado para no congelar la GUI
-        thread = threading.Thread(target=self.on_install, args=(v_data, self.update_progress))
-        thread.start()
+    def _start_task(self):
+        val = self.v_var.get()
+        item = next(i for i in self.data_list if i['v'] == val)
+        self.btn.config(state="disabled")
+        self.install_fn(item, self._update_pb)
 
-    def update_progress(self, value):
-        self.progress_var.set(value)
-        self.status_label.config(text=f"Procesando: {int(value)}%")
-        if value >= 100:
-            self.status_label.config(text="¡Instalación Completada!")
-            self.btn_action.config(state="normal")
-            messagebox.showinfo("InkSiege", "El proyecto se ha actualizado con éxito.")
+    def _update_pb(self, val):
+        self.pb['value'] = val
+        self.status.config(text=f"Procesando... {val}%")
+        self.update()
+        if val == 100:
+            self.btn.config(state="normal")
+            messagebox.showinfo("InkSiege", "Se ha abierto el navegador para la descarga.")
