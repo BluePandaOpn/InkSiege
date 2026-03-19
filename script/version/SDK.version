@@ -1,0 +1,10 @@
+# Versiones del proyecto 
+
+# Primera version del proyecto
+[SDK.Version] V0.1.0
+[SDK.Info] "La version de DEMO" #indormacnio de la version 
+[SDK] # para indicar el finalizacino de los comandos 
+
+
+# Version de Parches y inregracino de nuevas mecanicas 
+[SDK.Version] V0.1.2

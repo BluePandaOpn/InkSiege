@@ -794,7 +794,7 @@ class AudioManager:
     def __init__(self, music_dir, resources=None):
         self.music_dir = music_dir
         self.resources = resources or ResourceCache()
-        self.enabled = False
+        self.enabled = False  # Se activará solo si el audio carga correctamente
         self.current_music_track = None
         self.sounds = {}
         self.cooldowns = {}
@@ -807,13 +807,16 @@ class AudioManager:
         }
 
     def setup(self):
+        """Inicializa el mezclador con manejo de errores para evitar cierres."""
         try:
             if not pygame.mixer.get_init():
                 pygame.mixer.init()
             pygame.mixer.set_num_channels(32)
             self.enabled = True
-        except pygame.error:
+            logger.info("Sistema de audio inicializado correctamente.")
+        except (pygame.error, Exception) as e:
             self.enabled = False
+            logger.error(f"Fallo al inicializar audio. El juego correrá en modo silencioso: {e}")
 
     def update(self, dt):
         for key in list(self.cooldowns.keys()):
@@ -839,18 +842,21 @@ class AudioManager:
         return None
 
     def load_sound(self, key, filename, group="combat"):
+        """Carga un sonido solo si el audio está habilitado y el archivo existe."""
         if not self.enabled:
-            return
+            return 
+            
         path = self._resolve_path(filename)
-        if not path:
-            print(f"[AudioManager] Recurso SFX no encontrado: {filename}")
-            return
+        if not path or not os.path.exists(path):
+            logger.warning(f"[AudioParche] SFX no encontrado: {filename}. Saltando...")
+            return 
+
         try:
             if path not in self.resources.sound_cache:
                 self.resources.sound_cache[path] = pygame.mixer.Sound(path)
             self.sounds[key] = {"sound": self.resources.sound_cache[path], "group": group}
         except pygame.error as e:
-            print(f"[AudioManager] Error cargando SFX '{filename}': {e}")
+            logger.error(f"[AudioParche] Error al cargar {filename}: {e}")
 
     def _effective_volume(self, group, scale=1.0):
         v = self.volumes["master"] * self.volumes.get(group, 1.0) * scale
@@ -879,14 +885,18 @@ class AudioManager:
         self.play_sfx(random.choice(keys), cooldown_ms=cooldown_ms, cooldown_key=cooldown_key, volume_scale=volume_scale)
 
     def play_music(self, filename, force=False):
+        """Reproduce música con protección contra archivos faltantes."""
         if not self.enabled:
-            return
+            return 
+
         if (not force) and self.current_music_track == filename:
-            return
+            return 
+
         path = self._resolve_path(filename)
-        if not path:
-            print(f"[AudioManager] Recurso de musica no encontrado: {filename}")
-            return
+        if not path or not os.path.exists(path):
+            logger.warning(f"[AudioParche] Música no encontrada: {filename}. Continuando en silencio.")
+            return 
+
         try:
             pygame.mixer.music.fadeout(220)
             pygame.mixer.music.load(path)
@@ -894,7 +904,7 @@ class AudioManager:
             pygame.mixer.music.play(-1, fade_ms=300)
             self.current_music_track = filename
         except pygame.error as e:
-            print(f"[AudioManager] Error reproduciendo musica '{filename}': {e}")
+            logger.error(f"[AudioParche] Error al reproducir música: {e}")
 
     def set_volume(self, key, value):
         if key not in self.volumes:
@@ -4558,11 +4568,3 @@ class Game:
 
 if __name__ == "__main__":
     Game().run()
-
-
-
-
-
-
-
-
