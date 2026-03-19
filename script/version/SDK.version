@@ -3,12 +3,16 @@
 # Primera version del proyecto
 [SDK.Version] V0.1.0
 [SDK.Info] "La version de DEMO" #indormacnio de la version 
+[SDK.rute.install] "" # importante este para la ruta de los .exe q se instalaran en el dispositbo y cusanio se actualiza seran carpetas .zip y si es para instalar o para actualizar usar la ruta de actualizacion 
+[SDK.rute.update] "" # ruta para actualizar los archibos q estaran en .zip descomprimirlo y debera ponerlo en la misma rita 
 [SDK] # para indicar el finalizacino de los comandos 
 
 
 # Version de Parches y inregracino de nuevas mecanicas 
 [SDK.Version] V0.1.2
 [SDK.Info] "Version de parches y integracion de mecanicas nuebas "
+[SDK.rute.install] "" # importante este para la ruta de los .exe q se instalaran en el dispositbo y cusanio se actualiza seran carpetas .zip y si es para instalar o para actualizar usar la ruta de actualizacion 
+[SDK.rute.update] "" # ruta para actualizar los archibos q estaran en .zip descomprimirlo y debera ponerlo en la misma rita 
 [SDK] # para indicar el finalizacino de los comandos
 
 #

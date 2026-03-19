@@ -1,20 +1,25 @@
 import re
 
 class SDKInterpreter:
-    def __init__(self, content):
-        self.content = content
+    def __init__(self, raw_content):
+        self.content = raw_content
 
-    def get_all_versions(self):
-        """Extrae todas las versiones del archivo de InkSiege."""
-        # Regex mejorada para capturar exactamente tu formato
-        pattern = r"\[SDK\.Version\]\s*(V[\d\.]+)\n\[SDK\.Info\]\s*\"(.*?)\"\n\[SDK\]"
-        matches = re.findall(pattern, self.content, re.DOTALL)
+    def get_versions(self):
+        # Regex mejorada para capturar Version, Info, Install Path y Update Path
+        pattern = (r"\[SDK\.Version\]\s*(V[\d\.]+).*?\n"
+                   r"\[SDK\.Info\]\s*\"(.*?)\".*?\n"
+                   r"\[SDK\.rute\.install\]\s*\"(.*?)\".*?\n"
+                   r"\[SDK\.rute\.update\]\s*\"(.*?)\".*?\n"
+                   r"\[SDK\]")
         
-        versions_list = []
-        for v, info in matches:
-            versions_list.append({
-                "version": v.strip(),
-                "info": info.strip()
+        matches = re.findall(pattern, self.content, re.MULTILINE | re.DOTALL)
+        
+        parsed_data = []
+        for v, info, r_install, r_update in matches:
+            parsed_data.append({
+                "v": v.strip(),
+                "description": info.strip(),
+                "install_url": r_install.strip(),
+                "update_url": r_update.strip()
             })
-        # Las devolvemos en orden inverso (la más reciente primero)
-        return versions_list[::-1]
+        return parsed_data[::-1]

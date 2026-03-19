@@ -2,52 +2,42 @@ import requests
 import os
 from interpreter import SDKInterpreter
 from security import SecurityManager
-from gui import InkSiegeLauncher
+from updater import SDKUpdater
+from gui import SDKGui
 
-# Configuración del Proyecto
-SDK_URL = "https://raw.githubusercontent.com/BluePandaOpn/InkSiege/refs/heads/main/script/version/SDK.version"
-LOCAL_VERSION_FILE = "current_sdk.txt"
-HASH_CONTROL_FILE = ".sdk_lock"
+URL = "https://raw.githubusercontent.com/BluePandaOpn/InkSiege/refs/heads/main/script/version/SDK.version"
 
-def process_installation(version_name):
-    """Lógica para aplicar la versión seleccionada."""
-    # Guardar la versión
-    with open(LOCAL_VERSION_FILE, "w") as f:
-        f.write(version_name)
+def installation_worker(version_data, progress_fn):
+    # 1. Determinar si es instalación limpia (.exe) o parche (.zip)
+    # Por ahora simularemos que bajamos el update .zip
+    update_url = version_data['update_url']
     
-    # Crear sello de seguridad
-    new_hash = SecurityManager.calculate_hash(LOCAL_VERSION_FILE)
-    with open(HASH_CONTROL_FILE, "w") as f:
-        f.write(new_hash)
+    if not update_url:
+        # Si no hay URL, simulamos progreso para pruebas
+        for i in range(101):
+            import time
+            time.sleep(0.02)
+            progress_fn(i)
+    else:
+        # Descarga real y descompresión
+        SDKUpdater.download_and_extract(update_url, "./game_files", progress_fn)
     
-    print(f"Instalación de {version_name} finalizada con éxito.")
+    # Guardar versión local y Seguridad
+    with open("current_version.txt", "w") as f: f.write(version_data['v'])
+    # (Opcional) SecurityManager.save_hash(...)
 
 def main():
-    print("Conectando con InkSiege GitHub...")
     try:
-        response = requests.get(SDK_URL, timeout=10)
-        response.raise_for_status()
+        r = requests.get(URL, timeout=10)
+        r.raise_for_status()
         
-        # 1. Interpretar archivo
-        interpreter = SDKInterpreter(response.text)
-        available_versions = interpreter.get_all_versions()
+        parser = SDKInterpreter(r.text)
+        versions = parser.get_versions()
         
-        if not available_versions:
-            print("No se encontraron etiquetas [SDK] válidas.")
-            return
-
-        # 2. Verificar integridad local antes de abrir
-        if os.path.exists(LOCAL_VERSION_FILE) and os.path.exists(HASH_CONTROL_FILE):
-            with open(HASH_CONTROL_FILE, "r") as hf:
-                if not SecurityManager.verify(LOCAL_VERSION_FILE, hf.read().strip()):
-                    print("¡ADVERTENCIA! El archivo de versión local fue modificado ilegalmente.")
-
-        # 3. Lanzar GUI
-        app = InkSiegeLauncher(available_versions, process_installation)
+        app = SDKGui(versions, installation_worker)
         app.mainloop()
-
     except Exception as e:
-        print(f"Error de conexión: {e}")
+        print(f"Error: {e}")
 
 if __name__ == "__main__":
     main()
