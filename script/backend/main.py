@@ -1,49 +1,53 @@
+import requests
 import os
-from updater import AppUpdater
 from interpreter import SDKInterpreter
 from security import SecurityManager
-from gui import SDKLauncher
+from gui import InkSiegeLauncher
 
-GITHUB_URL = "https://raw.githubusercontent.com/USUARIO/REPO/main/versiones.txt"
-VERSION_FILE = "version_local.txt"
-HASH_FILE = ".hash_seguridad"
+# Configuración del Proyecto
+SDK_URL = "https://raw.githubusercontent.com/BluePandaOpn/InkSiege/refs/heads/main/script/version/SDK.version"
+LOCAL_VERSION_FILE = "current_sdk.txt"
+HASH_CONTROL_FILE = ".sdk_lock"
 
-def install_version(version_name):
-    """Esta función se ejecuta cuando el usuario pulsa el botón en la GUI."""
-    print(f"[*] Procesando instalación de {version_name}...")
-    
-    # 1. Guardar la versión en el archivo local
-    with open(VERSION_FILE, "w") as f:
+def process_installation(version_name):
+    """Lógica para aplicar la versión seleccionada."""
+    # Guardar la versión
+    with open(LOCAL_VERSION_FILE, "w") as f:
         f.write(version_name)
     
-    # 2. Generar nueva firma de seguridad para evitar desconfiguración
-    new_hash = SecurityManager.calculate_hash(VERSION_FILE)
-    with open(HASH_FILE, "w") as f:
+    # Crear sello de seguridad
+    new_hash = SecurityManager.calculate_hash(LOCAL_VERSION_FILE)
+    with open(HASH_CONTROL_FILE, "w") as f:
         f.write(new_hash)
     
-    print(f"[OK] Sistema configurado en versión: {version_name}")
-    # Aquí podrías disparar la descarga de archivos reales de esa versión
+    print(f"Instalación de {version_name} finalizada con éxito.")
 
 def main():
-    # Descargar manifiesto de versiones
-    updater = AppUpdater(GITHUB_URL)
-    content = updater.download_manifest()
+    print("Conectando con InkSiege GitHub...")
+    try:
+        response = requests.get(SDK_URL, timeout=10)
+        response.raise_for_status()
+        
+        # 1. Interpretar archivo
+        interpreter = SDKInterpreter(response.text)
+        available_versions = interpreter.get_all_versions()
+        
+        if not available_versions:
+            print("No se encontraron etiquetas [SDK] válidas.")
+            return
 
-    if not content:
-        print("Error crítico: No se pudo conectar a GitHub.")
-        return
+        # 2. Verificar integridad local antes de abrir
+        if os.path.exists(LOCAL_VERSION_FILE) and os.path.exists(HASH_CONTROL_FILE):
+            with open(HASH_CONTROL_FILE, "r") as hf:
+                if not SecurityManager.verify(LOCAL_VERSION_FILE, hf.read().strip()):
+                    print("¡ADVERTENCIA! El archivo de versión local fue modificado ilegalmente.")
 
-    # Interpretar versiones disponibles
-    parser = SDKInterpreter(content)
-    available_versions = parser.get_all_versions()
+        # 3. Lanzar GUI
+        app = InkSiegeLauncher(available_versions, process_installation)
+        app.mainloop()
 
-    if not available_versions:
-        print("No se encontraron versiones válidas en el archivo SDK.")
-        return
-
-    # Lanzar Interfaz Gráfica con la lista de versiones
-    app = SDKLauncher(available_versions, install_version)
-    app.mainloop()
+    except Exception as e:
+        print(f"Error de conexión: {e}")
 
 if __name__ == "__main__":
     main()

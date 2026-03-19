@@ -5,10 +5,10 @@ class SDKInterpreter:
         self.content = content
 
     def get_all_versions(self):
-        """Retorna una lista con todos los bloques de versiones encontrados."""
-        # Buscamos el patrón: Version, Info y el cierre [SDK]
+        """Extrae todas las versiones del archivo de InkSiege."""
+        # Regex mejorada para capturar exactamente tu formato
         pattern = r"\[SDK\.Version\]\s*(V[\d\.]+)\n\[SDK\.Info\]\s*\"(.*?)\"\n\[SDK\]"
-        matches = re.findall(pattern, self.content, re.MULTILINE)
+        matches = re.findall(pattern, self.content, re.DOTALL)
         
         versions_list = []
         for v, info in matches:
@@ -16,5 +16,5 @@ class SDKInterpreter:
                 "version": v.strip(),
                 "info": info.strip()
             })
-        # Invertimos para que la más reciente aparezca arriba en la lista
+        # Las devolvemos en orden inverso (la más reciente primero)
         return versions_list[::-1]

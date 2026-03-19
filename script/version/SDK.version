@@ -8,3 +8,7 @@
 
 # Version de Parches y inregracino de nuevas mecanicas 
 [SDK.Version] V0.1.2
+[SDK.Info] "Version de parches y integracion de mecanicas nuebas "
+[SDK] # para indicar el finalizacino de los comandos
+
+#
