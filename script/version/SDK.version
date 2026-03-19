@@ -1,18 +1,57 @@
-# Versiones del proyecto 
+#==========================================================
 
-# Primera version del proyecto
+ #INKSIEGE SYSTEM - MANIFIESTO DE VERSIONES (SDK)
+
+#==========================================================
+
+#Versión más reciente
+
+[SDK.Version] V0.1.5
+[SDK.Info] "Versión estable con mejoras de rendimiento y nuevos assets."
+[SDK.rute.install] "C:/InkSiege/Game"
+[SDK.rute.update] "C:/InkSiege/Game/Patch"
+[SDK]
+
+[SDK.Version] V0.1.3.5
+[SDK.Info] "Optimización de texturas y corrección de errores en el motor."
+[SDK.rute.install] "C:/InkSiege/Game"
+[SDK.rute.update] "C:/InkSiege/Game/Patch"
+[SDK]
+
+[SDK.Version] V0.1.3.4
+[SDK.Info] "Ajustes en la interfaz de usuario y sistemas de partículas."
+[SDK.rute.install] "C:/InkSiege/Game"
+[SDK.rute.update] "C:/InkSiege/Game/Patch"
+[SDK]
+
+[SDK.Version] V0.1.3.3
+[SDK.Info] "Soporte mejorado para controladores y gamepad."
+[SDK.rute.install] "C:/InkSiege/Game"
+[SDK.rute.update] "C:/InkSiege/Game/Patch"
+[SDK]
+
+[SDK.Version] V0.1.3.1
+[SDK.Info] "Parche de seguridad y corrección de colisiones."
+[SDK.rute.install] "C:/InkSiege/Game"
+[SDK.rute.update] "C:/InkSiege/Game/Patch"
+[SDK]
+
+[SDK.Version] V0.1.3
+[SDK.Info] "Actualización de mecánicas de combate y animaciones."
+[SDK.rute.install] "C:/InkSiege/Game"
+[SDK.rute.update] "C:/InkSiege/Game/Patch"
+[SDK]
+
+[SDK.Version] V0.1.1
+[SDK.Info] "Primera actualización de estabilidad y bugs menores."
+[SDK.rute.install] "C:/InkSiege/Game"
+[SDK.rute.update] "C:/InkSiege/Game/Patch"
+[SDK]
+
 [SDK.Version] V0.1.0
-[SDK.Info] "La version de DEMO" #indormacnio de la version 
-[SDK.rute.install] "" # importante este para la ruta de los .exe q se instalaran en el dispositbo y cusanio se actualiza seran carpetas .zip y si es para instalar o para actualizar usar la ruta de actualizacion 
-[SDK.rute.update] "" # ruta para actualizar los archibos q estaran en .zip descomprimirlo y debera ponerlo en la misma rita 
-[SDK] # para indicar el finalizacino de los comandos 
+[SDK.Info] "Versión de DEMO inicial - Lanzamiento del proyecto."
+[SDK.rute.install] "C:/InkSiege/Game"
+[SDK.rute.update] "C:/InkSiege/Game/Patch"
+[SDK]
 
-
-# Version de Parches y inregracino de nuevas mecanicas 
-[SDK.Version] V0.1.2
-[SDK.Info] "Version de parches y integracion de mecanicas nuebas "
-[SDK.rute.install] "" # importante este para la ruta de los .exe q se instalaran en el dispositbo y cusanio se actualiza seran carpetas .zip y si es para instalar o para actualizar usar la ruta de actualizacion 
-[SDK.rute.update] "" # ruta para actualizar los archibos q estaran en .zip descomprimirlo y debera ponerlo en la misma rita 
-[SDK] # para indicar el finalizacino de los comandos
-
-#
+#--- FIN DEL ARCHIVO ---

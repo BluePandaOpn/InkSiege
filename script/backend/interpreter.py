@@ -6,27 +6,34 @@ class SDKInterpreter:
         self.sdl_content = sdl_content
 
     def get_combined_data(self):
-        # Extrae Versión y Descripción del SDK.version
-        sdk_pattern = r"\[SDK\.Version\]\s*(V[\d\.]+)\s*\[SDK\.Info\]\s*\"(.*?)\""
-        sdk_matches = re.findall(sdk_pattern, self.sdk_content, re.DOTALL)
-
+        # Extraer bloques completos: Versión hasta el tag [SDK]
+        sdk_sections = re.findall(r"\[SDK\.Version\]\s*(V.*?)\n(.*?)\s*\[SDK\]", self.sdk_content, re.DOTALL)
+        
         combined_list = []
-        for v_raw, info in sdk_matches:
-            # Limpiar 'V' para buscar en el archivo SDL (ej: V0.1.3 -> 0.1.3)
-            v_clean = v_raw.replace('V', '').strip()
+        for version, body in sdk_sections:
+            v_num = version.strip()
+            # Limpiamos 'V' para buscar en SDL (ej: V0.1.3 -> 0.1.3)
+            v_clean = v_num.replace('V', '').strip()
             
-            # Patrones flexibles para encontrar las URLs de Google Drive
+            # Extraer Info y Rutas del cuerpo del SDK
+            info = re.search(r"\[SDK\.Info\]\s*\"(.*?)\"", body)
+            r_inst = re.search(r"\[SDK\.rute\.install\]\s*\"(.*?)\"", body)
+            r_upd = re.search(r"\[SDK\.rute\.update\]\s*\"(.*?)\"", body)
+
+            # Buscar las URLs específicas en tu archivo SDL proporcionado
             inst_pat = rf"\[SDL\.\({re.escape(v_clean)}\)\.install\.url\.general\]\s*\"(.*?)\""
             upd_pat = rf"\[SDL\.\({re.escape(v_clean)}\)\.update\.url\.general\]\s*\"(.*?)\""
             
-            install_url = re.search(inst_pat, self.sdl_content)
-            update_url = re.search(upd_pat, self.sdl_content)
+            inst_url = re.search(inst_pat, self.sdl_content)
+            upd_url = re.search(upd_pat, self.sdl_content)
 
             combined_list.append({
-                "v": v_raw,
-                "info": info.strip(),
-                "install_url": install_url.group(1) if install_url and install_url.group(1) else None,
-                "update_url": update_url.group(1) if update_url and update_url.group(1) else None
+                "v": v_num,
+                "info": info.group(1) if info else "Sin descripción disponible.",
+                "path_install": r_inst.group(1) if r_inst else "C:/InkSiege/Game",
+                "path_update": r_upd.group(1) if r_upd else "C:/InkSiege/Game/Updates",
+                "url_install": inst_url.group(1) if inst_url and inst_url.group(1) else None,
+                "url_update": upd_url.group(1) if upd_url and upd_url.group(1) else None
             })
             
-        return combined_list #
+        return combined_list # Retorna la lista de versiones procesadas
